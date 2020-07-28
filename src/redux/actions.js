@@ -4,6 +4,8 @@
 
 import { AUTH_SUCCESS, ERROR_MSG } from "./action-types";
 import { reqRegister, reqLogin } from "../api";
+import { RECEIVE_USER, RESET_USER } from "./action-types";
+import { reqUpdateUser } from "../api";
 
 // 同步错误消息
 const errorMsg = (msg) => ({ type: ERROR_MSG, data: msg });
@@ -49,6 +51,30 @@ export const Login = ({ username, password }) => {
       dispatch(authSuccess(result.data));
     } else {
       dispatch(errorMsg(result.msg));
+    }
+  };
+};
+
+// 同步接收用户
+const receiveUser = (user) => ({ type: RECEIVE_USER, data: user });
+
+//同步重置用户
+export const resetUser = (msg) => ({ type: RESET_USER, data: msg });
+
+/* 
+  异步更新用户 
+*/
+export const updateUser = (user) => {
+  return async (dispatch) => {
+    // 发送异步ajax请求
+    const response = await reqUpdateUser(user);
+    const result = response.data;
+    if (result.code === 0) {
+      // 更新成功
+      dispatch(receiveUser(result.data));
+    } else {
+      // 失败
+      dispatch(resetUser(result.msg));
     }
   };
 };
