@@ -23,3 +23,4 @@ export default function ajax(url = "", data = {}, type = "GET") {
     return axios.post(url, data); // data: 包含请求体数据的对象
   }
 }
+

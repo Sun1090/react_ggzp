@@ -3,7 +3,7 @@
 */
 
 import { AUTH_SUCCESS, ERROR_MSG } from "./action-types";
-import { reqRegister, reqLogin } from "../api";
+import { reqRegister, reqLogin, reqUser } from "../api";
 import { RECEIVE_USER, RESET_USER } from "./action-types";
 import { reqUpdateUser } from "../api";
 
@@ -74,6 +74,21 @@ export const updateUser = (user) => {
       dispatch(receiveUser(result.data));
     } else {
       // 失败
+      dispatch(resetUser(result.msg));
+    }
+  };
+};
+
+/* 
+  异步获取用户
+*/
+export const getUser = () => {
+  return async (dispatch) => {
+    const response = await reqUser();
+    const result = response.data;
+    if (result.code === 0) {
+      dispatch(receiveUser(result.data));
+    } else {
       dispatch(resetUser(result.msg));
     }
   };
