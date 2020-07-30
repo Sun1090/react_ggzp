@@ -2,10 +2,20 @@
   包含所有action creator 函数模块
 */
 
-import { AUTH_SUCCESS, ERROR_MSG } from "./action-types";
-import { reqRegister, reqLogin, reqUser } from "../api";
-import { RECEIVE_USER, RESET_USER } from "./action-types";
-import { reqUpdateUser } from "../api";
+import {
+  AUTH_SUCCESS,
+  ERROR_MSG,
+  RECEIVE_USER,
+  RESET_USER,
+  RECEIVE_USER_LIST,
+} from "./action-types";
+import {
+  reqRegister,
+  reqLogin,
+  reqUser,
+  reqUpdateUser,
+  reqUserList,
+} from "../api";
 
 // 同步错误消息
 const errorMsg = (msg) => ({ type: ERROR_MSG, data: msg });
@@ -93,3 +103,16 @@ export const getUser = () => {
     }
   };
 };
+
+// 用户列表
+const receiveUserList = (user) => ({type: RECEIVE_USER_LIST, data: users})
+//异步获取用户列表
+export const getUserList = (type) => {
+  return async dispatch => {
+    const response = await reqUserList(type)
+    const result = response.data;
+    if(result.code === 0) {
+      dispatch(receiveUserList(result.data))
+    }
+  }
+}

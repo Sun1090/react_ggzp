@@ -3,7 +3,7 @@
 */
 
 import { combineReducers } from "redux";
-import { AUTH_SUCCESS, ERROR_MSG } from "./action-types";
+import { AUTH_SUCCESS, ERROR_MSG, RECEIVE_USER_LIST } from "./action-types";
 import { getRedirectPath } from "../utils";
 import { RECEIVE_USER, RESET_USER } from "./action-types";
 
@@ -13,6 +13,9 @@ const initUser = {
   msg: "", // 错误提示信息
   redirectTo: "", // 需要自动跳转的路由path
 };
+
+const initUserList = [];
+
 function user(state = initUser, action) {
   switch (action.type) {
     case RECEIVE_USER: // 接收用户
@@ -30,7 +33,17 @@ function user(state = initUser, action) {
   }
 }
 
+function userList(state = initUserList, action) {
+  switch (action.type) {
+    case RECEIVE_USER_LIST:
+      return action.data;
+    default:
+      return state;
+  }
+}
+
 // 返回合并的reducer
 export default combineReducers({
   user,
+  userList,
 });
