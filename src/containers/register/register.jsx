@@ -14,7 +14,7 @@ import { Redirect } from "react-router-dom";
 import Logo from "../../components/logo/logo";
 import { register } from "../../redux/actions";
 
-export default class Register extends Component {
+class Register extends Component {
   state = {
     username: "",
     password: "",

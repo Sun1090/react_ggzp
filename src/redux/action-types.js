@@ -16,3 +16,12 @@ export const RESET_USER = "RESET_USER";
 
 // 接收用户列表
 export const RECEIVE_USER_LIST = "receive_user_lsit";
+
+// 接收信息列表
+export const RECEIVE_MSG_LIST = "receive_msg_list";
+
+// 接收一条消息
+export const RECEIVE_MSG = "receive_msg";
+
+// 标识消息已读
+export const MSG_READ = "msg_read";

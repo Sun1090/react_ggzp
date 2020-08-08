@@ -73,6 +73,7 @@ class Main extends Component {
       return <Redirect to="/login" />;
     }
     // cookie中有userid
+    const { user } = this.props;
     // redux中的user是否有数据
     if (!user._id) {
       return null;

@@ -31,7 +31,7 @@ export default class HeaderSelector extends Component {
   };
   render() {
     // 计算头部显示
-    const {} = this.state;
+    const {icon} = this.state;
     const gridHeader = icon ? (
       <p>
         已选择头像:

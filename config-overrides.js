@@ -25,7 +25,7 @@ module.exports = function override(config, env) {
       require.resolve("style-loader"),
       require.resolve("css-loader"),
       {
-        loader: require.resolve(postcss - loader),
+        loader: require.resolve("postcss-loader"),
         options: {
           //Necessary for external CSS imports to work
           // https://github.com/facebookincubator/create-react-app/isses/2667

@@ -3,9 +3,17 @@
 */
 
 import { combineReducers } from "redux";
-import { AUTH_SUCCESS, ERROR_MSG, RECEIVE_USER_LIST } from "./action-types";
+import {
+  AUTH_SUCCESS,
+  ERROR_MSG,
+  RECEIVE_USER_LIST,
+  RECEIVE_USER,
+  RESET_USER,
+  RECEIVE_MSG_LIST,
+  RECEIVE_MSG,
+  MSG_READ,
+} from "./action-types";
 import { getRedirectPath } from "../utils";
-import { RECEIVE_USER, RESET_USER } from "./action-types";
 
 const initUser = {
   username: "", // 用户名
@@ -16,6 +24,14 @@ const initUser = {
 
 const initUserList = [];
 
+// 初始化chat对象
+const initChat = {
+  chatMsgs: [], // 消息数组[{from: id1, to: id2}]
+  users: {},  // 所有用户的集合对象{id1: user1, id2: user2}
+  unReadCount: 0 // 未读消息的数量
+}
+
+// 用户
 function user(state = initUser, action) {
   switch (action.type) {
     case RECEIVE_USER: // 接收用户
@@ -33,12 +49,27 @@ function user(state = initUser, action) {
   }
 }
 
+// 用户列表
 function userList(state = initUserList, action) {
   switch (action.type) {
     case RECEIVE_USER_LIST:
       return action.data;
     default:
       return state;
+  }
+}
+
+// 管理聊天相关信息数据的reducer
+function chat(state = initChat, action) {
+  switch (action.type) {
+    case RECEIVE_MSG:
+      var { chatMsgs, userid } = action.data;
+      return {
+        chatMsgs: [...state.chatMsgs, chatMsg],
+        users: state.users,
+        unReadCount: state.unReadCount + (! chatMsg.read && chatMsg.to === userid ? 1: 0)
+      }
+    case 
   }
 }
 
