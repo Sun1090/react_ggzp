@@ -27,9 +27,9 @@ const initUserList = [];
 // 初始化chat对象
 const initChat = {
   chatMsgs: [], // 消息数组[{from: id1, to: id2}]
-  users: {},  // 所有用户的集合对象{id1: user1, id2: user2}
-  unReadCount: 0 // 未读消息的数量
-}
+  users: {}, // 所有用户的集合对象{id1: user1, id2: user2}
+  unReadCount: 0, // 未读消息的数量
+};
 
 // 用户
 function user(state = initUser, action) {
@@ -67,14 +67,41 @@ function chat(state = initChat, action) {
       return {
         chatMsgs: [...state.chatMsgs, chatMsg],
         users: state.users,
-        unReadCount: state.unReadCount + (! chatMsg.read && chatMsg.to === userid ? 1: 0)
-      }
-    case 
+        unReadCount:
+          state.unReadCount + (!chatMsg.read && chatMsg.to === userid ? 1 : 0),
+      };
+    case RECEIVE_MSG_LIST:
+      var { chatMsg, userid } = action.data;
+      return {
+        chatMsgs,
+        users,
+        unReadCount: chatMsg.reduce((preTotal, msg) => {
+          // 别人给我发的未读消息
+          return preTotal + (!msg.read && msg.to === userid ? 1 : 0);
+        }, 0),
+      };
+    case MSG_READ:
+      const { count, from, to } = action.data;
+      return {
+        chatMsg: state.chatMsg.map((msg) => {
+          if (msg.from === from && msg.to === to && !msg.read) {
+            // msg.read = true  //不能直接修改状态
+            return { ...msg, read: true };
+          } else {
+            return msg;
+          }
+        }),
+        users: state.users,
+        unReadCount: state.unReadCount - count,
+      };
+    default:
+      return state;
   }
 }
 
-// 返回合并的reducer
+// 返回合并的reducer   向外暴露整合所有reducer函数的结果
 export default combineReducers({
   user,
   userList,
+  chat,
 });
